@@ -29,7 +29,7 @@ if i == '1':
 
 # Subscribing to imported subreddts
 print('Getting List of subreddits from old Account')
-subreddit = source.user.subreddits()
+subreddit = source.user.subreddits(limit=None)
 subreddits = [str(s) for s in subreddit]
 drain.subreddit(subreddits[0]).subscribe(other_subreddits=subreddits)
 for subreddit in subreddits:
