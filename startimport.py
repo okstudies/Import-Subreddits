@@ -22,6 +22,9 @@ source = login()
 print('Log into new Reddit Account')
 drain = login()
 
+accepted_subreddit_types = ['public', 'restricted']
+failed_subscriptions = []
+
 # Unsubscribing from old subreddits
 if i == '1':
     print('Unsubscribing from old subreddits')
