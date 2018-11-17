@@ -47,3 +47,5 @@ if c == '1':
 drain.subreddit(subreddits[0]).subscribe(other_subreddits=subreddits)
 for subreddit in subreddits:
     print('Subscribed to {}'.format(subreddit))
+for subreddit in failed_subscriptions:
+    print('You need to manually subscribe to {}'.format(subreddit))
