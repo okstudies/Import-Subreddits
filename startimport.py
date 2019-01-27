@@ -13,10 +13,17 @@ def login():
 
 i = input('''1: Clean old subscriptions
 2: Keep old subscriptions\n''')
+
+c = input('''1: Check the type of subreddits before subscribing (slower))
+2: Dont check for subreddit type (faster, but might cause errors)''')
+
 print('Log into old Reddit Account')
 source = login()
 print('Log into new Reddit Account')
 drain = login()
+
+accepted_subreddit_types = ['public', 'restricted']
+failed_subscriptions = []
 
 # Unsubscribing from old subreddits
 if i == '1':
@@ -29,8 +36,19 @@ if i == '1':
 
 # Subscribing to imported subreddts
 print('Getting List of subreddits from old Account')
-subreddit = source.user.subreddits()
+subreddit = source.user.subreddits(limit=None)
 subreddits = [str(s) for s in subreddit]
+
+if c == '1':
+    for subreddit in subreddits:
+        print('Checking type of {}'.format(subreddit))
+        if source.subreddit(subreddit).subreddit_type not in accepted_subreddit_types:
+            print('{} is not in accepted subreddit types ({}).'.format(subreddit, source.subreddit(subreddit).subreddit_type))
+            subreddits.remove(subreddit)
+            failed_subscriptions.append(subreddit)
+
 drain.subreddit(subreddits[0]).subscribe(other_subreddits=subreddits)
 for subreddit in subreddits:
     print('Subscribed to {}'.format(subreddit))
+for subreddit in failed_subscriptions:
+    print('You need to manually subscribe to {}'.format(subreddit))
